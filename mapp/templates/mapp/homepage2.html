@@ -1,5 +1,11 @@
-<form action="/homepage2/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
+{% extends 'mapp/base.html' %}
+
+{% block title %} Mapper placeholder {% endblock %}
+{% block content %} 
+Mapper placeholder content 
+<form method ="post" action="/homepage2/">
+    {{form.as_p}}
+    <button type="submit", name="save">Make my map</button>
 </form>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %} Mapper {% endblock %} </title>
+</head>
+<body>
+
+    <h1>Welcome to Mapper </h1>
+    <p>The site where you can print nice topo maps of... anywhere you want </p>
+    <div id='content', name='content'>
+        {% block content %}
+        
+        {% endblock %}
+    </div>
+
+</body>
+</html>
