@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 django-environ = "*"
 pillow = "*"
+requests = "*"
 
 [dev-packages]
 

@@ -1,0 +1,1 @@
+{"locations": [{"latitude": 41.38717, "longitude": -122.21779}, {"latitude": 41.38827, "longitude": -122.21779}, {"latitude": 41.38937, "longitude": -122.21779}, {"latitude": 41.39047, "longitude": -122.21779}, {"latitude": 41.39157, "longitude": -122.21779}, {"latitude": 41.39267, "longitude": -122.21779}]}
