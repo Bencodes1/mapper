@@ -3,7 +3,8 @@
 {% block title %} Mapper placeholder {% endblock %}
 {% block content %} 
 Mapper placeholder content 
-<form method ="post" action="/homepage2/">
+<form method ="post" action="/mapp/homepage2/">
+    {% csrf_token %}
     {{form.as_p}}
     <button type="submit", name="save">Make my map</button>
 </form>
