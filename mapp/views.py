@@ -1,9 +1,11 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from PIL import Image
 from .forms import MapInputs
 from .models import Map
 from .gridmaker import json_gridmaker
+import sys
 
 def homepage(request):
     return render(request, "mapp/homepage.html")
@@ -21,8 +23,8 @@ def homepage2(response):
 
             m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, resolution=res)
             m.save()
-            print("figuring this out", m)
-            print("figuring this out too", m.latitude)
+            json_data = json_gridmaker(m.latitude, m.longitude, m.scale, m.high_color, m.low_color, m.resolution)
+            print("json file is:", sys.getsizeof(json_data)/1000000, "megabytes")
             return HttpResponseRedirect('image/')
         else:
             return HttpResponseRedirect('invalidinputTKTKTK')

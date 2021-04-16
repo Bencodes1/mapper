@@ -1,5 +1,7 @@
 import json
-import sys
+# import sys
+from decimal import *
+
 
 def json_gridmaker(lat, lon, scale, high_color, low_color, resolution):
     x_start=lat
@@ -12,7 +14,6 @@ def json_gridmaker(lat, lon, scale, high_color, low_color, resolution):
     # decimal coords is ~11meters. 
     meters_per_pixel = (2*scale*1000)/resolution
     iterator= (meters_per_pixel/11) * 0.0001
-    # print(iterator, ": that's our iterator")
     for y in range(-int(resolution/2),int(resolution/2)):
         for x in range(-int(resolution/2),int(resolution/2)):
             pixel_coords= {
