@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from PIL import Image
 from .forms import MapInputs
 from .models import Map
-
+from .gridmaker import json_gridmaker
 
 def homepage(request):
     return render(request, "mapp/homepage.html")
@@ -21,7 +21,11 @@ def homepage2(response):
 
             m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, resolution=res)
             m.save()
-        return HttpResponseRedirect('image/')
+            print("figuring this out", m)
+            print("figuring this out too", m.latitude)
+            return HttpResponseRedirect('image/')
+        else:
+            return HttpResponseRedirect('invalidinputTKTKTK')
     else:
         form = MapInputs()
 
