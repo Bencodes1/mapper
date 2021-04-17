@@ -32,7 +32,14 @@ def json_gridmaker(lat, lon, scale, high_color, low_color, resolution):
     # print("lat_lon_list format(entry 3):", lat_lon_list[2])      
 
     
-
+# def raster_maker(json_response, resolution):
+#     return("blank bru")
+#     raster = []
+#     for y in range(-int(resolution/2),int(resolution/2)):
+#         raster_row=[]
+#         for x in range(-int(resolution/2),int(resolution/2)):
+#             raster_row.append(TK dict positon)
+            
 
 # 4th decimal place = 11m.  
 # 2 * scale * 1000 = meters in grid
