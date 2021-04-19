@@ -31,7 +31,7 @@ def homepage2(response):
             print("outgoing json file is:", sys.getsizeof(json_data)/1000000, "megabytes")
             url = 'https://api.open-elevation.com/api/v1/lookup'
             headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
-            r = requests.get(url, headers=headers, data=json_data)
+            r = requests.post(url, headers=headers, data=json_data)
 
             print("Did this work? The response is", r)
             print("Did this work? If so our response json file is", sys.getsizeof(r), "bytes" )
