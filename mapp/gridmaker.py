@@ -33,14 +33,17 @@ def json_gridmaker(lat, lon, scale, high_color, low_color, resolution):
             grid_format_coords = {
                 "x":x, 
                 "y":y,
-                "elevation": -1
+                "elevation": -(x*y)
             }
             grid_dict_list.append(grid_format_coords)
 
     json_data = json.dumps({"locations": lat_lon_list})
-    for y in range(resolution):
-        for x in range(resolution):
-            print("ZZZZZZ", grid_dict_list[x])
+    
+    # forgot what this one is doing but it's being annoying 
+    for y in range(0, resolution):
+        for x in range(0, resolution):
+            pass
+            # print("ZZZZZZ", grid_dict_list[x])
             #next step is to append xlist here
         #and then append xlist to grid here
         

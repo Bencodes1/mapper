@@ -7,6 +7,7 @@ from .gridmaker import json_gridmaker
 import sys
 import time
 import requests
+import json
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -29,14 +30,29 @@ def homepage2(response):
             m.save()
             json_data = json_gridmaker(m.latitude, m.longitude, m.scale, m.high_color, m.low_color, m.resolution)
             print("outgoing json file is:", sys.getsizeof(json_data)/1000000, "megabytes")
+
             url = 'https://api.open-elevation.com/api/v1/lookup'
             headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
             r = requests.post(url, headers=headers, data=json_data)
+            json_result = r.json()
+            # print(json_result)
 
-            print("Did this work? The response is", r)
-            print("Did this work? If so our response json file is", sys.getsizeof(r), "bytes" )
+            if r.status_code==200:
+                print("It worked! Our response json file is", sys.getsizeof(json_result), "bytes")
+                results_dict = json.dumps(json_result)
+                print("results dict is...", type(results_dict))
+                list = []
+                results_list = results_dict[0]
+                print(results_list[2])
+                # for item in just["results"]:
+                #     list.append(item["elevation"])
+                print("here's your elevations: ", list)
+            else:
+                print("There was an error, status code: ", r.status_code)    
+            
+            return HttpResponseRedirect('image/')                
 
-            return HttpResponseRedirect('image/')
+
         else:
             return HttpResponseRedirect('invalidinputTKTKTK')
     else:
