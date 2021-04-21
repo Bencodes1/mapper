@@ -35,15 +35,17 @@ def homepage2(response):
             headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
             r = requests.post(url, headers=headers, data=json_data)
             json_result = r.json()
-            # print(json_result)
+            print('json_result type: ', type(json_result), json_result)
 
             if r.status_code==200:
                 print("It worked! Our response json file is", sys.getsizeof(json_result), "bytes")
-                results_dict = json.dumps(json_result)
-                print("results dict is...", type(results_dict))
+                # results_list = json.dumps(json_result)
+                results_list = json_result['results']
+                print("results dict is...", type(results_list))
                 list = []
-                results_list = results_dict[0]
-                print(results_list[2])
+                tester = results_list[3]
+                print(results_list[3])
+                print(tester["elevation"])
                 # for item in just["results"]:
                 #     list.append(item["elevation"])
                 print("here's your elevations: ", list)
