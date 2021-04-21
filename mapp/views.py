@@ -43,12 +43,27 @@ def homepage2(response):
                 results_list = json_result['results']
                 print("results dict is...", type(results_list))
                 list = []
-                tester = results_list[3]
-                print(results_list[3])
-                print(tester["elevation"])
-                # for item in just["results"]:
-                #     list.append(item["elevation"])
-                print("here's your elevations: ", list)
+                for result in results_list:
+                    list.append(result["elevation"])
+                
+                list_o_lists = []
+                row_adder = 0
+
+                for y in range(0,res):
+                    temp_list=[]
+                    for x in range(0,res):
+                        temp_list.append(list[x+row_adder])
+                        # print("fixing our loop, x=", x)
+                        # print("fixing our loop, y=", y)
+                        # print("fixing our loop, row_adder=", row_adder)
+                    row_adder+=res
+                    # print("debug check")
+                    list_o_lists.append(temp_list)
+
+                print("here's your elevations: ")
+                print(list_o_lists)
+
+
             else:
                 print("There was an error, status code: ", r.status_code)    
             

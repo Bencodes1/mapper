@@ -9,6 +9,7 @@ pillow = "*"
 requests = "*"
 djangorestframework = "*"
 markdown = "*"
+colour = "*"
 
 [dev-packages]
 
