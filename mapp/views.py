@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from PIL import Image
 from .forms import MapInputs
 from .models import Map
-from .gridmaker import json_gridmaker
+from .gridmaker import ele_grid_maker
 import sys
 import time
 import requests
@@ -24,51 +24,55 @@ def homepage2(response):
             sc = form.cleaned_data["scale"]
             hc = form.cleaned_data["high_color"]
             lc = form.cleaned_data["low_color"]
-            res = form.cleaned_data["resolution"]
+            xd = form.cleaned_data["x_dim"]
+            yd = form.cleaned_data["y_dim"]
 
-            m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, resolution=res)
+            m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, x_dim=xd, y_dim=yd)
             m.save()
-            json_data = json_gridmaker(m.latitude, m.longitude, m.scale, m.high_color, m.low_color, m.resolution)
-            print("outgoing json file is:", sys.getsizeof(json_data)/1000000, "megabytes")
+            elevation_grid = ele_grid_maker(m.latitude, m.longitude, m.scale, m.x_dim, m.y_dim )
+            # iterate through grid, one row at a time, and make request for each one.
+            ele_raster = []
+            for row in elevation_grid:
+                print("here's your current row length:", len(row))
+                json_data = json.dumps({"locations": row})
+                # print("outgoing json file is:", sys.getsizeof(json_data)/1000000, "megabytes")
+                url = 'https://api.open-elevation.com/api/v1/lookup'
+                headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
+                r = requests.post(url, headers=headers, data=json_data)
+                json_result = r.json()
+                # print('json_result type: ', type(json_result), json_result)
 
-            url = 'https://api.open-elevation.com/api/v1/lookup'
-            headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
-            r = requests.post(url, headers=headers, data=json_data)
-            json_result = r.json()
-            print('json_result type: ', type(json_result), json_result)
+                if r.status_code==200:
+                    print(f"It worked! Our response json file for this row is", sys.getsizeof(json_result), "bytes")
+                    results_list = json_result['results']
+                    list = []
+                    for result in results_list:
+                        list.append(result["elevation"])
+                   
+                    ele_raster.append(list)
+                    time.sleep(0.02)
+                    # for y in range(0,res):
+                    #     temp_list=[]
+                    #     for x in range(0,res):
+                    #         temp_list.append(list[x+row_adder])
+                    #         # print("fixing our loop, x=", x)
+                    #         # print("fixing our loop, y=", y)
+                    #         # print("fixing our loop, row_adder=", row_adder)
+                    #     row_adder+=res
+                    #     # print("debug check")
+                    #     ele_grid.append(temp_list)
 
-            if r.status_code==200:
-                print("It worked! Our response json file is", sys.getsizeof(json_result), "bytes")
-                # results_list = json.dumps(json_result)
-                results_list = json_result['results']
-                print("results dict is...", type(results_list))
-                list = []
-                for result in results_list:
-                    list.append(result["elevation"])
-                
-                list_o_lists = []
-                row_adder = 0
+                else:
+                    print("There was an error, status code: ", r.status_code)   
 
-                for y in range(0,res):
-                    temp_list=[]
-                    for x in range(0,res):
-                        temp_list.append(list[x+row_adder])
-                        # print("fixing our loop, x=", x)
-                        # print("fixing our loop, y=", y)
-                        # print("fixing our loop, row_adder=", row_adder)
-                    row_adder+=res
-                    # print("debug check")
-                    list_o_lists.append(temp_list)
+            # save elevation raster to file          
+            original_stdout = sys.stdout # Save a reference to the original standard output    
+            with open('shasta.txt', 'w') as f:
+                sys.stdout = f # Change the standard output to the file we created.
+                print(ele_raster)
+                sys.stdout = original_stdout # Reset the standard output to its original value
 
-                print("here's your elevations: ")
-                print(list_o_lists)
-
-
-            else:
-                print("There was an error, status code: ", r.status_code)    
-            
             return HttpResponseRedirect('image/')                
-
 
         else:
             return HttpResponseRedirect('invalidinputTKTKTK')

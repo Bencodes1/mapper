@@ -9,7 +9,11 @@ class Map(models.Model):
     scale = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(1000)])
     high_color = models.CharField(max_length=36)
     low_color = models.CharField(max_length=36)
-    resolution = models.IntegerField()
+    x_dim = models.IntegerField()
+    y_dim = models.IntegerField()
+
+    #resolution is legacy code- easier to leave in than deal w/ migrations right now
+    resolution = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.high_color

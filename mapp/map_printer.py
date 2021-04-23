@@ -20,6 +20,7 @@ def map_create(xy_grid, high_color, low_color):
     increment   = gradient_scaler(min_ele, max_ele)
     RGB_list    = gradient_creator(low_color, high_color)
     img         = Image.new('RGB', (len(xy_grid[0]), len(xy_grid)))
+    print("peepee", type(xy_grid[0][0]))
     for rownum in range(0, len(xy_grid)-1):
         for pos in range(0, len(xy_grid[0]-1)):
             curr_ele = ele_at_coords(pos, rownum)
