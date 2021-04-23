@@ -4,6 +4,8 @@ from PIL import Image
 from .forms import MapInputs
 from .models import Map
 from .gridmaker import ele_grid_maker
+from .rastermaker import rastermaker
+from .map_printer import alpha
 import sys
 import time
 import requests
@@ -30,47 +32,19 @@ def homepage2(response):
             m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, x_dim=xd, y_dim=yd)
             m.save()
             elevation_grid = ele_grid_maker(m.latitude, m.longitude, m.scale, m.x_dim, m.y_dim )
-            # iterate through grid, one row at a time, and make request for each one.
-            ele_raster = []
-            for row in elevation_grid:
-                print("here's your current row length:", len(row))
-                json_data = json.dumps({"locations": row})
-                # print("outgoing json file is:", sys.getsizeof(json_data)/1000000, "megabytes")
-                url = 'https://api.open-elevation.com/api/v1/lookup'
-                headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
-                r = requests.post(url, headers=headers, data=json_data)
-                json_result = r.json()
-                # print('json_result type: ', type(json_result), json_result)
+            
+            elevation_raster = rastermaker(elevation_grid) # iterate through grid, one row at a time, and make request for each one.
 
-                if r.status_code==200:
-                    print(f"It worked! Our response json file for this row is", sys.getsizeof(json_result), "bytes")
-                    results_list = json_result['results']
-                    list = []
-                    for result in results_list:
-                        list.append(result["elevation"])
-                   
-                    ele_raster.append(list)
-                    time.sleep(0.02)
-                    # for y in range(0,res):
-                    #     temp_list=[]
-                    #     for x in range(0,res):
-                    #         temp_list.append(list[x+row_adder])
-                    #         # print("fixing our loop, x=", x)
-                    #         # print("fixing our loop, y=", y)
-                    #         # print("fixing our loop, row_adder=", row_adder)
-                    #     row_adder+=res
-                    #     # print("debug check")
-                    #     ele_grid.append(temp_list)
+            img = alpha(elevation_raster, m.high_color, m.low_color)
+            print("hope this worked... img size is:", sys.getsizeof(img))
 
-                else:
-                    print("There was an error, status code: ", r.status_code)   
-
+            img.save(f"{m.high_color} to {m.low_color}")
             # save elevation raster to file          
-            original_stdout = sys.stdout # Save a reference to the original standard output    
-            with open('shasta.txt', 'w') as f:
-                sys.stdout = f # Change the standard output to the file we created.
-                print(ele_raster)
-                sys.stdout = original_stdout # Reset the standard output to its original value
+            # original_stdout = sys.stdout # Save a reference to the original standard output    
+            # with open('shasta.txt', 'w') as f:
+            #     sys.stdout = f # Change the standard output to the file we created.
+            #     print(elevation_raster)
+            #     sys.stdout = original_stdout # Reset the standard output to its original value
 
             return HttpResponseRedirect('image/')                
 
