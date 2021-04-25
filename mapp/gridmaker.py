@@ -74,24 +74,3 @@ def ele_grid_maker(lat, lon, scale, x_dim, y_dim):
     ###########################################################
 
     return(json_data)
-
-
-    
-# def raster_maker(json_response, resolution):
-#     return("blank bru")
-#     raster = []
-#     for y in range(-int(resolution/2),int(resolution/2)):
-#         raster_row=[]
-#         for x in range(-int(resolution/2),int(resolution/2)):
-#             raster_row.append(TK dict positon)
-            
-
-# 4th decimal place = 11m.  
-# 2 * scale * 1000 = meters in grid
-# resolution: each pixel is 1/resolution
-# so: 40.96km equals 40,960 m
-# each pixel therefore represents 40m
-# so, our iterator: 0.0001i = 11m
-#40m/11 * 0.0001
-
-# json_gridmaker(41.40917, -122.19579, 20.48, "Red", "Purple", 64)
