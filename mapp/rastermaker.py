@@ -3,9 +3,11 @@ import time
 import requests
 import json
 
-# Takes elevation json files (each one is one 'row' or one horizontal line of 
-# pixels in our eventual img) and pulls out elevation values, creating raster file for
-# map_printer to run from. 
+# Takes elevation files (each one is one 'row' or one horizontal line of 
+# pixels in our eventual img), converts list of dicts->json and makes request 
+# for that row. Gets response, pulls out elevation values, creating raster file 
+# from which map_printer renders. 
+
 def rastermaker(elevation_grid):  
     print("rastermaker started. length of elevation grid:", len(elevation_grid))
     ele_raster = []  
