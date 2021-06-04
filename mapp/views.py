@@ -14,10 +14,8 @@ from rest_framework import status
 from rest_framework.response import Response
 
 
-def homepage(request):
-    return render(request, "mapp/homepage.html")
 
-def homepage2(response):
+def homepage(response):
     if response.method == 'POST':
         form = MapInputs(response.POST)
         if form.is_valid():
@@ -28,12 +26,13 @@ def homepage2(response):
             lc = form.cleaned_data["low_color"]
             xd = form.cleaned_data["x_dim"]
             yd = form.cleaned_data["y_dim"]
+            dk = form.cleaned_data["dev_key"]
 
-            m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, x_dim=xd, y_dim=yd)
+            m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, x_dim=xd, y_dim=yd, dev_key=dk)
             m.save()
             elevation_grid = ele_grid_maker(m.latitude, m.longitude, m.scale, m.x_dim, m.y_dim )
             
-            elevation_raster = rastermaker(elevation_grid) # iterate through grid, one row at a time, and make request for each one.
+            elevation_raster = rastermaker(elevation_grid, m.dev_key) # iterate through grid, one row at a time, and make request for each one.
 
             img = alpha(elevation_raster, m.high_color, m.low_color)
             print("hope this worked... img size is:", sys.getsizeof(img))
