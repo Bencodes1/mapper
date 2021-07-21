@@ -43,13 +43,9 @@ def ele_grid_maker(lat, lon, scale, x_dim, y_dim):
 
         ele_row = []
         for x in range(-int(x_dim/2),int(x_dim/2)):
-            
             loop_lon = round(x_start + (lon_iterator*x), 7)
-            pixel_coords= {
-                "latitude": loop_lat,
-                "longitude": loop_lon,
-            }
-            ele_row.append(pixel_coords)
+            ele_row.append(loop_lat)
+            ele_row.append(loop_lon)
         
         ele_grid.append(ele_row)    
     print("gridmaker finished running, length of last row:", len(ele_row))

@@ -26,7 +26,7 @@ def map_create(xy_grid, high_color, low_color):
         for pos in range(0, len(xy_grid[0])-1):
             curr_ele = xy_grid[rownum][pos]
             curr_colornum = abs(int(ele_to_col_val(curr_ele, min_ele, increment)))-1
-            print(curr_colornum)
+            # print(curr_colornum)
             curr_RGB = RGB_list[curr_colornum]
             img.putpixel((pos, rownum), curr_RGB)            
     stop = time.time()

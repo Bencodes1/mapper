@@ -8,13 +8,14 @@ import json
 # for that row. Gets response, pulls out elevation values, creating raster file 
 # from which map_printer renders. 
 
-def rastermaker(elevation_grid):  
+def rastermaker(elevation_grid, dev_key):  
     print("rastermaker started. length of elevation grid:", len(elevation_grid))
     ele_raster = []  
     for row in elevation_grid:
-        print("here's your current row length:", len(row))
-        json_data = json.dumps({"locations": row})
-        url = 'https://api.open-elevation.com/api/v1/lookup'
+        print("here's your current row length: ", len(row))
+        print("here's your current row: ", row)
+        json_data = json.dumps({"latLngCollection": row})
+        url = 'http://open.mapquestapi.com/elevation/v1/profile?key='+dev_key
         headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
         start = time.time()
 
@@ -25,10 +26,10 @@ def rastermaker(elevation_grid):
             stop = time.time()
             print(f"It worked! Our response json file for this row is", sys.getsizeof(json_result), "bytes")
             print("time from request to response:", stop - start , "seconds")
-            results_list = json_result['results']
+            results_list = json_result['elevationProfile']
             list = []
             for result in results_list:
-                list.append(result["elevation"])
+                list.append(result["height"])
             
             ele_raster.append(list)
             time.sleep(0.02)
