@@ -19,8 +19,8 @@ def homepage(response):
     if response.method == 'POST':
         form = MapInputs(response.POST)
         if form.is_valid():
-            lat = form.cleaned_data["latitude"]
-            lon = form.cleaned_data["longitude"]
+            lat= form.cleaned_data["latitude"]
+            lon= form.cleaned_data["longitude"]
             sc = form.cleaned_data["scale"]
             hc = form.cleaned_data["high_color"]
             lc = form.cleaned_data["low_color"]
@@ -48,11 +48,22 @@ def homepage(response):
             return HttpResponseRedirect('image/')                
 
         else:
+            print("There's a problem with your inputs- here's what we have:")
+            print(form.cleaned_data["latitude"])
+            print(form.cleaned_data["longitude"])
+            print(form.cleaned_data["scale"])
+            print(form.cleaned_data["high_color"])
+            print(form.cleaned_data["low_color"])
+            print(form.cleaned_data["x_dim"])
+            print(form.cleaned_data["y_dim"])
+            print(form.cleaned_data["dev_key"])
+
+
             return HttpResponseRedirect('invalidinputTKTKTK')
     else:
         form = MapInputs()
 
-    return render(response, 'mapp/homepage2.html', {'form': form})        
+    return render(response, 'mapp/homepage.html', {'form': form})        
 
 
 # def external_api_view(request):

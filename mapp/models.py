@@ -11,7 +11,7 @@ class Map(models.Model):
     low_color = models.CharField(max_length=36)
     x_dim = models.IntegerField()
     y_dim = models.IntegerField()
-    dev_key = models.CharField(max_length=36)
+    dev_key = models.CharField(max_length=40)
 
     #resolution is legacy code- easier to leave in than deal w/ migrations right now
     resolution = models.IntegerField(blank=True, null=True)

@@ -10,5 +10,5 @@ class MapInputs(forms.Form):
     low_color = forms.CharField(max_length=36, label = 'Valley Color', initial="Purple")
     x_dim = forms.IntegerField(validators=[MinValueValidator(4), MaxValueValidator(1999)], label = 'Image Resolution: Width', initial=1000)
     y_dim = forms.IntegerField(validators=[MinValueValidator(2), MaxValueValidator(1999)], label = 'Image Resolution: Height', initial=48)
-    dev_key = forms.CharField(max_length=36, label='Developer Key', initial="Paste your mapquest developer key here")
+    dev_key = forms.CharField(max_length=40, label='Developer Key', initial="Paste your mapquest developer key here")
     # resolution = forms.IntegerField(validators=[MinValueValidator(4), MaxValueValidator(1024)], label = 'Image Resolution', initial=4)
