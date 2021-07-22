@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from PIL import Image
 from .forms import MapInputs
 from .models import Map
-from .gridmaker import ele_grid_maker
+from .gridmaker import latlon_grid_maker
 from .rastermaker import rastermaker
 from .map_printer import alpha
 import sys
@@ -30,14 +30,14 @@ def homepage(response):
 
             m = Map(latitude=lat, longitude=lon, scale=sc, high_color=hc, low_color=lc, x_dim=xd, y_dim=yd, dev_key=dk)
             m.save()
-            elevation_grid = ele_grid_maker(m.latitude, m.longitude, m.scale, m.x_dim, m.y_dim )
+            latlon_grid = latlon_grid_maker(m.latitude, m.longitude, m.scale, m.x_dim, m.y_dim )
             
-            elevation_raster = rastermaker(elevation_grid, m.dev_key) # iterate through grid, one row at a time, and make request for each one.
+            elevation_raster = rastermaker(latlon_grid, m.dev_key) # iterate through grid, one row at a time, and make request for each one.
 
             img = alpha(elevation_raster, m.high_color, m.low_color)
-            print("hope this worked... img size is:", sys.getsizeof(img))
+            print("hope this worked... img size is:", sys.getsizeof(img), "bytes")
 
-            img.save(f"{m.high_color} to {m.low_color}")
+            img.save(f"{m.high_color} to {m.low_color}.jpg")
             # save elevation raster to file          
             # original_stdout = sys.stdout # Save a reference to the original standard output    
             # with open('shasta.txt', 'w') as f:

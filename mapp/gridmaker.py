@@ -3,7 +3,7 @@ import sys
 from decimal import *
 import math
 
-def ele_grid_maker(lat, lon, scale, x_dim, y_dim):
+def latlon_grid_maker(lat, lon, scale, x_dim, y_dim):
     y_start=lat
     x_start=lon
 
@@ -27,7 +27,7 @@ def ele_grid_maker(lat, lon, scale, x_dim, y_dim):
     iterator= (meters_per_pixel/111321) 
     # print("gridmaker2 latitude iterator", iterator)
     
-    ele_grid = []
+    latlon_grid = []
     for y in range(-int(y_dim/2),int(y_dim/2)):
         loop_lat = round(y_start + (iterator*y), 7)
 
@@ -41,15 +41,15 @@ def ele_grid_maker(lat, lon, scale, x_dim, y_dim):
         lon_iterator = lon_ratio*iterator 
         # print("gridmaker2 longitude iterator",lon_iterator)
 
-        ele_row = []
+        latlon_row = []
         for x in range(-int(x_dim/2),int(x_dim/2)):
             loop_lon = round(x_start + (lon_iterator*x), 7)
-            ele_row.append(loop_lat)
-            ele_row.append(loop_lon)
+            latlon_row.append(loop_lat)
+            latlon_row.append(loop_lon)
         
-        ele_grid.append(ele_row)    
-    print("gridmaker finished running, length of last row:", len(ele_row))
-    return(ele_grid)    
+        latlon_grid.append(latlon_row)    
+    print("gridmaker finished running, length of last row:", len(latlon_row))
+    return(latlon_grid)    
 
     ###########################################################
     # Debugging json by writing it to files    
