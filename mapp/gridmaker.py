@@ -39,7 +39,6 @@ def latlon_grid_maker(lat, lon, scale, x_dim, y_dim):
 
         lon_ratio = math.cos(((2*math.pi)/360)*loop_lat)
         lon_iterator = lon_ratio*iterator 
-        # print("gridmaker2 longitude iterator",lon_iterator)
 
         latlon_row = []
         for x in range(-int(x_dim/2),int(x_dim/2)):
@@ -68,5 +67,3 @@ def latlon_grid_maker(lat, lon, scale, x_dim, y_dim):
     print("grid_dict_list generated:", grid_dict_list[2]) 
     '''
     ###########################################################
-
-    return(json_data)

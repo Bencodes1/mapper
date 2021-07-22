@@ -4,12 +4,9 @@ import sys
 from PIL import Image, ImageColor
 from colour import Color
 
-# ele_grid = [[1,1,1,1,1],[1,1,2,1,1],[1,2,3,2,1],[1,2,2,2,1],[2,1,1,1,2]]
 
 def alpha(raster, high_color, low_color):
     xy_grid=raster
-    # high_color  = "red"
-    # low_color   = "purple"
     color_img   = map_create(xy_grid, high_color, low_color)
     return(color_img)
 
@@ -81,5 +78,3 @@ def ele_to_col_val(min_ele, curr_ele, increment):
     # col_val = int((curr_ele - min_ele)*(1/increment))
     col_val = int(round(curr_ele - min_ele)*(1/increment))
     return col_val  
-
-# alpha(ele_grid) 
