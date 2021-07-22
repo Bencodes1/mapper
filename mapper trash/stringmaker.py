@@ -3,7 +3,7 @@ import sys
 from decimal import *
 import math
 
-def latlon_grid_maker(lat, lon, scale, x_dim, y_dim):
+def ele_grid_maker(lat, lon, scale, x_dim, y_dim):
     y_start=lat
     x_start=lon
 
@@ -27,7 +27,7 @@ def latlon_grid_maker(lat, lon, scale, x_dim, y_dim):
     iterator= (meters_per_pixel/111321) 
     # print("gridmaker2 latitude iterator", iterator)
     
-    latlon_grid = []
+    ele_string = ""
     for y in range(-int(y_dim/2),int(y_dim/2)):
         loop_lat = round(y_start + (iterator*y), 7)
 
@@ -39,17 +39,14 @@ def latlon_grid_maker(lat, lon, scale, x_dim, y_dim):
 
         lon_ratio = math.cos(((2*math.pi)/360)*loop_lat)
         lon_iterator = lon_ratio*iterator 
-
-        latlon_row = []
+        ele_row = []
         for x in range(-int(x_dim/2),int(x_dim/2)):
+            
             loop_lon = round(x_start + (lon_iterator*x), 7)
-            latlon_row.append(loop_lat)
-            latlon_row.append(loop_lon)
+            ele_string += f"{loop_lat},{loop_lon}"
         
-        latlon_grid.append(latlon_row)    
-    print("gridmaker finished running, length of last row:", len(latlon_row))
-    return(latlon_grid)    
-
+    print("gridmaker finished running, length of last row:", len(ele_row))
+    return(ele_string)
     ###########################################################
     # Debugging json by writing it to files    
     '''
@@ -67,3 +64,5 @@ def latlon_grid_maker(lat, lon, scale, x_dim, y_dim):
     print("grid_dict_list generated:", grid_dict_list[2]) 
     '''
     ###########################################################
+
+    return(json_data)

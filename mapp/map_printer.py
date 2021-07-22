@@ -4,12 +4,9 @@ import sys
 from PIL import Image, ImageColor
 from colour import Color
 
-# ele_grid = [[1,1,1,1,1],[1,1,2,1,1],[1,2,3,2,1],[1,2,2,2,1],[2,1,1,1,2]]
 
 def alpha(raster, high_color, low_color):
     xy_grid=raster
-    # high_color  = "red"
-    # low_color   = "purple"
     color_img   = map_create(xy_grid, high_color, low_color)
     return(color_img)
 
@@ -21,12 +18,11 @@ def map_create(xy_grid, high_color, low_color):
 
     RGB_list    = gradient_creator(low_color, high_color)
     img         = Image.new('RGB', (len(xy_grid[0]), len(xy_grid)))
-    print("peepee", type(xy_grid[0][0]), xy_grid[0][0])
     for rownum in range(0, len(xy_grid)-1):
         for pos in range(0, len(xy_grid[0])-1):
             curr_ele = xy_grid[rownum][pos]
             curr_colornum = abs(int(ele_to_col_val(curr_ele, min_ele, increment)))-1
-            print(curr_colornum)
+            # print(curr_colornum)
             curr_RGB = RGB_list[curr_colornum]
             img.putpixel((pos, rownum), curr_RGB)            
     stop = time.time()
@@ -82,5 +78,3 @@ def ele_to_col_val(min_ele, curr_ele, increment):
     # col_val = int((curr_ele - min_ele)*(1/increment))
     col_val = int(round(curr_ele - min_ele)*(1/increment))
     return col_val  
-
-# alpha(ele_grid) 
