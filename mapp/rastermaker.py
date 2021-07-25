@@ -21,11 +21,10 @@ def rastermaker(latlon_grid, dev_key):
         start = time.time()
 
         r = requests.post(url, headers=headers, data=json_data)
-        print("troubleshooting, r=", r)
         json_result = r.json()
         if r.status_code==200:
             stop = time.time()
-            print(f"It worked! Our response json file for this row is", sys.getsizeof(json_result), "bytes")
+            # print(f"It worked! Our response json file for this row is", sys.getsizeof(json_result), "bytes")
             print("time from request to response:", stop - start , "seconds")
             results_list = json_result['elevationProfile']
             list = []
@@ -36,6 +35,7 @@ def rastermaker(latlon_grid, dev_key):
             time.sleep(0.02)
 
         else:
+            print("troubleshooting, r=", r)
             print("There was an error, status code: ", r.status_code)  
             return(["sorry", "error"])
     print("raster file complete, number of rows:", len(ele_raster))
@@ -51,10 +51,3 @@ def rastermaker(latlon_grid, dev_key):
     return(ele_raster)
 
 
-# debugging :
-# def rastermaker(latlon_grid, dev_key):  
-#     print("rastermaker started. length of elevation grid:", len(latlon_grid))
-#     print("printing dev key bc we use it in the fn", dev_key)
-#     ele_raster = durham_temp
-#     print("raster file complete, number of rows:", len(ele_raster))
-#     return(ele_raster)

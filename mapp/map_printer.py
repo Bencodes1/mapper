@@ -60,7 +60,7 @@ def gradient_creator(high_color, low_color):
     hex_colors = list(start_col.range_to(Color(stop_col), 258)) #258 bc we delete first and final elements to make 256
     print("length of hex color list:", len(hex_colors))
     RGB_list = []
-    for i in range(1,257): # do this instead of 0,255 to eliminate first and last colors in list - they are a different format.
+    for i in range(1,257): # do this instead of 0,256 to eliminate first and last colors in list - they are a different format.
         curr_col = hex_colors[i]
         curr_col = ImageColor.getcolor(f"{curr_col}", "RGB")
         RGB_list.append(curr_col)
@@ -74,7 +74,7 @@ def ele_at_coords(pos, rownum, xy_grid):
     print("line 103", int(xy_grid[rownum][pos]))
     return (xy_grid[rownum][pos])
 
+# Given elevation value, generate appropriate color value
 def ele_to_col_val(min_ele, curr_ele, increment):
-    # col_val = int((curr_ele - min_ele)*(1/increment))
     col_val = int(round(curr_ele - min_ele)*(1/increment))
     return col_val  
