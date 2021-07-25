@@ -1,8 +1,7 @@
 {% extends 'mapp/base.html' %}
 
-{% block title %} Mapper placeholder {% endblock %}
+{% block title %} Mapper {% endblock %}
 {% block content %} 
-Mapper placeholder content... this is homepage.html 
 <form method ="post" action="/mapp/homepage/">
     {% csrf_token %}
     {{form.as_p}}

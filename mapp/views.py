@@ -45,8 +45,8 @@ def homepage(response):
             img.save(f"{m.high_color}_to_{m.low_color}.jpg")
             print("Image saved. File size in memory is:", sys.getsizeof(img), "bytes")
 
-            return HttpResponseRedirect('https://en.wikipedia.org/wiki/Peregrine_falcon')                
-            # return HttpResponseRedirect('image/')                
+            # return HttpResponseRedirect('https://en.wikipedia.org/wiki/Peregrine_falcon')                
+            return HttpResponseRedirect('image/')                
 
         else:
             print("There's a problem with your inputs- here's what we have:")
